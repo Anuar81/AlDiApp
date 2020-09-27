@@ -1,55 +1,57 @@
 package com.example.aldiapp.ui.home
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.aldiapp.R
-import com.example.aldiapp.databinding.ActivityMainBinding
 import com.example.aldiapp.databinding.HomeFragmentBinding
 import com.example.aldiapp.domain.Item
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
+    private lateinit var adapter: HomeAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = HomeFragmentBinding.inflate(inflater,container, false)
+        _binding = HomeFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val item1 = getCorrectItem("facebook", "usuario", "password")
-        val item2 = getCorrectItem("twitter", "usuario2", "password2")
-
-        viewModel.addItem(item1)
-        viewModel.addItem(item2)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.fabHome.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_addFragment)
+        }
+        setupRecycler()
 
         viewModel.itemList.observe(viewLifecycleOwner, Observer {
-            it.forEach{
-                println(it.title)
-            }
-        } )
+            adapter.itemList = it
+        })
 
         viewModel.getAllItems()
-
     }
 
+    private fun setupRecycler() {
+        adapter = HomeAdapter()
+        binding.recyclerHome.layoutManager = LinearLayoutManager(context)
+        binding.recyclerHome.adapter = adapter
+    }
 
-    private fun getCorrectItem(title: String, user: String, pass: String) : Item {
-        return Item(title = title, userName = user, password = pass)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

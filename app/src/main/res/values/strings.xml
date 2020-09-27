@@ -9,4 +9,9 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="add_fragment_input_name">Nombre de la app o servicio</string>
+    <string name="add_fragment_input_user">Usuario o mail</string>
+    <string name="add_fragment_input_pass">Contraseña</string>
+    <string name="add_fragment_btn_save">Guardar</string>
+    <string name="add_fragment_btn_clear">Borrar</string>
 </resources>
