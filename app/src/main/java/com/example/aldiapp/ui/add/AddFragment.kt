@@ -12,6 +12,7 @@ import com.example.aldiapp.R
 import com.example.aldiapp.databinding.AddFragmentBinding
 import com.example.aldiapp.domain.Item
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_fragment.*
 
 @AndroidEntryPoint
@@ -31,6 +32,9 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setAppBar()
+
         binding.btnAppSave.setOnClickListener {
             saveData()
         }
@@ -40,6 +44,19 @@ class AddFragment : Fragment() {
                 findNavController().navigate(R.id.action_addFragment_to_homeFragment)
             }
         })
+    }
+
+    private fun setAppBar() {
+        activity?.let {
+            it.title = getString(R.string.add_fragment_title)
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        activity?.let {
+            it.title = getString(R.string.app_name)
+        }
     }
 
     private fun saveData() {

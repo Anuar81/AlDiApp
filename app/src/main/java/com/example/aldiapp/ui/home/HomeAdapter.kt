@@ -8,7 +8,7 @@ import com.example.aldiapp.R
 import com.example.aldiapp.databinding.ItemHomeBinding
 import com.example.aldiapp.domain.Item
 
-class HomeAdapter() :
+class HomeAdapter(private val listener: ItemObserver) :
     RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     var itemList: List<Item> = emptyList()
@@ -20,6 +20,9 @@ class HomeAdapter() :
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.bind(itemList[position])
+        holder.itemView.setOnClickListener {
+            listener.itemListener(itemList[position])
+        }
     }
 
     override fun getItemCount(): Int = itemList.size
@@ -31,5 +34,9 @@ class HomeAdapter() :
         fun bind(item: Item) = with(binding) {
             recyclerItemTitle.text = item.title
         }
+    }
+
+    interface ItemObserver {
+        fun itemListener(item: Item)
     }
 }

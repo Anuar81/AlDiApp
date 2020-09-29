@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -12,11 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.aldiapp.R
 import com.example.aldiapp.databinding.HomeFragmentBinding
 import com.example.aldiapp.domain.Item
+import com.example.aldiapp.ui.detail.DetailFragment
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeAdapter.ItemObserver {
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
@@ -45,7 +46,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        adapter = HomeAdapter()
+        adapter = HomeAdapter(this)
         binding.recyclerHome.layoutManager = LinearLayoutManager(context)
         binding.recyclerHome.adapter = adapter
     }
@@ -53,5 +54,10 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun itemListener(item: Item) {
+        val bundle = bundleOf(DetailFragment.ARG_ITEM to item)
+        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 }

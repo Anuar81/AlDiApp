@@ -14,4 +14,7 @@
     <string name="add_fragment_input_pass">Contraseña</string>
     <string name="add_fragment_btn_save">Guardar</string>
     <string name="add_fragment_btn_clear">Borrar</string>
+    <string name="add_fragment_title">Completa la data que quieres guardar</string>
+    <string name="detail_fragment_btn_edit">Editar</string>
+    <string name="detail_fragment_btn_save">Guardar</string>
 </resources>
