@@ -17,4 +17,5 @@
     <string name="add_fragment_title">Completa la data que quieres guardar</string>
     <string name="detail_fragment_btn_edit">Editar</string>
     <string name="detail_fragment_btn_save">Guardar</string>
+    <string name="add_fragment_error_text">Este campo no puede estar vacio</string>
 </resources>

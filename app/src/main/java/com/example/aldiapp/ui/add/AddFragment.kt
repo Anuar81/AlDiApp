@@ -36,7 +36,9 @@ class AddFragment : Fragment() {
         setAppBar()
 
         binding.btnAppSave.setOnClickListener {
-            saveData()
+            if (isAllCompleted()) {
+                saveData()
+            }
         }
 
         viewModel.addSuccecsLivedata.observe(viewLifecycleOwner, Observer {
@@ -57,6 +59,12 @@ class AddFragment : Fragment() {
         activity?.let {
             it.title = getString(R.string.app_name)
         }
+    }
+
+    private fun isAllCompleted() : Boolean {
+        return viewModel.isAllCompleted(
+            binding.txtAppName, binding.txtAppUser, binding.txtAppPass, getString(R.string.add_fragment_error_text)
+        )
     }
 
     private fun saveData() {

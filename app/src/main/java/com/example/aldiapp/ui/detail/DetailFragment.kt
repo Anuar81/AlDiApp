@@ -1,11 +1,10 @@
 package com.example.aldiapp.ui.detail
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.aldiapp.R
 import com.example.aldiapp.databinding.DetailFragmentBinding
@@ -67,10 +66,15 @@ class DetailFragment : Fragment() {
 
     private fun needUpdate() {
         viewModel.item?.let {
-            if (!it.userName.equals(binding.txtDetailUser.text.toString()) || !it.password.equals(binding.txtDetailPass.text.toString())) {
-                it.userName = binding.txtDetailUser.text.toString()
-                it.password = binding.txtDetailPass.text.toString()
-                viewModel.updateItem()
+            if (!binding.txtDetailName.text.isNullOrBlank() && !binding.txtDetailUser.text.isNullOrBlank()) {
+                if (!it.userName.equals(binding.txtDetailUser.text.toString()) || !it.password.equals(
+                        binding.txtDetailPass.text.toString()
+                    )
+                ) {
+                    it.userName = binding.txtDetailUser.text.toString()
+                    it.password = binding.txtDetailPass.text.toString()
+                    viewModel.updateItem()
+                }
             }
         }
     }
