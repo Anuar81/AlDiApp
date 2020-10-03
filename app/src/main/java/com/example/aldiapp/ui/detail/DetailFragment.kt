@@ -10,7 +10,9 @@ import androidx.fragment.app.viewModels
 import com.example.aldiapp.R
 import com.example.aldiapp.databinding.DetailFragmentBinding
 import com.example.aldiapp.domain.Item
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
     private var _binding: DetailFragmentBinding? = null
     private val binding get() = _binding!!
@@ -24,7 +26,7 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding =  DetailFragmentBinding.inflate(inflater, container, false)
+        _binding = DetailFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -33,7 +35,6 @@ class DetailFragment : Fragment() {
         arguments?.let {
             viewModel.item = it.getSerializable(ARG_ITEM) as Item
         }
-
         setViewItem()
 
         binding.btnDetailEdit.setOnClickListener {
@@ -56,10 +57,21 @@ class DetailFragment : Fragment() {
             binding.txlDetailUser.isEnabled = true
             binding.txlDetailPass.isEnabled = true
             binding.btnDetailEdit.text = getString(R.string.detail_fragment_btn_save)
-        }else {
+        } else {
+            needUpdate()
             binding.txlDetailUser.isEnabled = false
             binding.txlDetailPass.isEnabled = false
             binding.btnDetailEdit.text = getString(R.string.detail_fragment_btn_edit)
+        }
+    }
+
+    private fun needUpdate() {
+        viewModel.item?.let {
+            if (!it.userName.equals(binding.txtDetailUser.text.toString()) || !it.password.equals(binding.txtDetailPass.text.toString())) {
+                it.userName = binding.txtDetailUser.text.toString()
+                it.password = binding.txtDetailPass.text.toString()
+                viewModel.updateItem()
+            }
         }
     }
 

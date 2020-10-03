@@ -1,9 +1,6 @@
 package com.example.aldiapp.db
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.aldiapp.domain.Item
 
 @Dao
@@ -17,4 +14,7 @@ interface ItemDAO {
 
     @Delete
     suspend fun removeItemFromList(item: Item)
+
+    @Update
+    suspend fun updateItem(item: Item)
 }

@@ -15,4 +15,9 @@ class ItemRepository @Inject constructor(private val itemDAO: ItemDAO){
     suspend fun getAllItems() : List<Item> {
         return itemDAO.getAllItems()
     }
+
+    suspend fun updateItem(item: Item) {
+        itemDAO.updateItem(item)
+    }
+
 }
